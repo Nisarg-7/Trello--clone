@@ -1,0 +1,122 @@
+/* Drag and Drop Styles */
+
+/* Draggable items cursor */
+.list[draggable="true"],
+.card[draggable="true"] {
+    cursor: grab;
+}
+
+.list[draggable="true"]:active,
+.card[draggable="true"]:active {
+    cursor: grabbing;
+}
+
+/* Item being dragged */
+.dragging {
+    opacity: 0.5;
+    transform: rotate(3deg);
+    cursor: grabbing !important;
+}
+
+/* Drop zone indicators */
+.drag-over-list {
+    background: rgba(0, 121, 191, 0.1);
+    border: 2px dashed #0079bf;
+}
+
+.drag-over-card {
+    border-top: 3px solid #0079bf;
+    padding-top: 8px;
+}
+
+/* Placeholder for dragged item */
+.drag-placeholder {
+    background: #f4f5f7;
+    border: 2px dashed #dfe1e6;
+    border-radius: 8px;
+    height: 40px;
+    margin: 8px 0;
+}
+
+/* List drag handle */
+.list-drag-handle {
+    cursor: grab;
+    padding: 4px;
+    color: #5e6c84;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.list-drag-handle:active {
+    cursor: grabbing;
+}
+
+/* Card drag handle */
+.card-drag-handle {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a5adba;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.card:hover .card-drag-handle {
+    opacity: 1;
+}
+
+/* Smooth transitions */
+.list {
+    transition: transform 0.2s ease;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Drop zone highlighting */
+.lists-container.drag-active .list:not(.dragging) {
+    transition: background 0.2s;
+}
+
+.list-cards.drag-active .card:not(.dragging) {
+    transition: border-color 0.2s;
+}
+
+/* Disable text selection while dragging */
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Dragging feedback */
+.list.dragging {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transform: rotate(2deg);
+}
+
+.card.dragging {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Drop zone for empty lists */
+.list-cards.empty-drop-zone {
+    min-height: 60px;
+    background: rgba(0, 121, 191, 0.05);
+    border: 2px dashed #dfe1e6;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-cards.empty-drop-zone::after {
+    content: "Drop card here";
+    color: #a5adba;
+    font-size: 14px;
+}

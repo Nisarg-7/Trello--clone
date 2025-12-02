@@ -1,0 +1,77 @@
+/* Boards Grid Layout */
+.boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+/* Board Card Styles */
+.board-card {
+    height: 96px;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-size: cover;
+    background-position: center;
+}
+
+.board-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.board-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.15);
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.board-card:hover .board-card-overlay {
+    background: rgba(0,0,0,0.25);
+}
+
+.board-card-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Create Board Card */
+.create-board-card {
+    background: #dfe1e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.create-board-card:hover {
+    background: #c4c9d4;
+}
+
+/* Board Actions (Edit/Delete) */
+.board-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    display: none;
+    gap: 4px;
+}
+
+.board-card:hover .board-actions {
+    display: flex;
+}

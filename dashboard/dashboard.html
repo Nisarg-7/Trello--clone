@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Clone - Dashboard</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/boards.css">
+    <link rel="stylesheet" href="css/lists.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/comments.css">
+    <link rel="stylesheet" href="css/due-dates.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                Trello
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search">
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="btn-create" onclick="openCreateBoardModal()">Create</button>
+            <div class="user-avatar" onclick="logout()" title="Logout">
+                <span id="userInitials">U</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div class="main-content" id="dashboardView">
+        <h2 class="section-title">
+            <span>📋</span> Your Boards
+        </h2>
+        
+        <div class="boards-grid" id="boardsGrid">
+            <!-- Boards will be loaded here -->
+            <div class="board-card create-board-card" onclick="openCreateBoardModal()">
+                Create new board
+            </div>
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h2>No boards yet</h2>
+            <p>Create your first board to get started!</p>
+            <button class="btn-create" onclick="openCreateBoardModal()">Create Board</button>
+        </div>
+    </div>
+
+    <!-- Board View -->
+    <div class="board-view" id="boardView">
+        <div class="board-header">
+            <div class="board-header-left">
+                <button class="btn-back" onclick="goToDashboard()">← Back</button>
+                <div class="board-title" id="currentBoardTitle">Board Name</div>
+            </div>
+            <div>
+                <button class="btn-share">Share</button>
+            </div>
+        </div>
+
+        <div class="lists-container" id="listsContainer">
+            <!-- Lists will be loaded here -->
+            <button class="add-list-btn" onclick="showAddListForm()">+ Add a list</button>
+        </div>
+    </div>
+
+    <!-- Create Board Modal -->
+    <div class="modal" id="createBoardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create board</h3>
+                <button class="modal-close" onclick="closeCreateBoardModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="createBoard(event)">
+                    <div class="form-group">
+                        <label>Board title</label>
+                        <input type="text" id="boardName" placeholder="Enter board title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Background</label>
+                        <div class="color-picker">
+                            <div class="color-option selected" style="background: linear-gradient(135deg, #0079bf 0%, #5067c5 100%)" data-color="blue" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #61bd4f 0%, #8fce00 100%)" data-color="green" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #eb5a46 0%, #ff7066 100%)" data-color="red" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #f2d600 0%, #ffeb3b 100%)" data-color="yellow" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #ff9f1a 0%, #ffb347 100%)" data-color="orange" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #c377e0 0%, #d291ff 100%)" data-color="purple" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #00c2e0 0%, #51e5ff 100%)" data-color="cyan" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #838c91 0%, #a3afb7 100%)" data-color="grey" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #344563 0%, #4a5f7f 100%)" data-color="dark" onclick="selectColor(this)"></div>
+                            <div class="color-option" style="background: linear-gradient(135deg, #cd5a91 0%, #e879b9 100%)" data-color="pink" onclick="selectColor(this)"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Detail Modal -->
+    <div class="modal" id="cardDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="cardDetailTitle">Card Details</h3>
+                <button class="modal-close" onclick="closeCardDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="cardDetailBody">
+                <!-- Card details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Board Modal -->
+    <div class="modal" id="editBoardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Board</h3>
+                <button class="modal-close" onclick="closeEditBoardModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editBoardName" class="modal-input" placeholder="Board name">
+                
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #5e6c84;">Background</label>
+                <div class="color-picker" id="editColorPicker">
+                    <div class="color-option" style="background: linear-gradient(135deg, #0079bf 0%, #5067c5 100%)" data-color="blue" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #61bd4f 0%, #8fce00 100%)" data-color="green" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #eb5a46 0%, #ff7066 100%)" data-color="red" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #f2d600 0%, #ffeb3b 100%)" data-color="yellow" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #ff9f1a 0%, #ffb347 100%)" data-color="orange" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #c377e0 0%, #d291ff 100%)" data-color="purple" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #00c2e0 0%, #51e5ff 100%)" data-color="cyan" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #838c91 0%, #a3afb7 100%)" data-color="grey" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #344563 0%, #4a5f7f 100%)" data-color="dark" onclick="selectEditColor(this)"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #cd5a91 0%, #e879b9 100%)" data-color="pink" onclick="selectEditColor(this)"></div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button class="btn-submit" onclick="saveEditBoard()">Save</button>
+                    <button class="btn-secondary" onclick="closeEditBoardModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit List Modal -->
+    <div class="modal" id="editListModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit List</h3>
+                <button class="modal-close" onclick="closeEditListModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editListName" class="modal-input" placeholder="List name">
+                
+                <div class="modal-buttons">
+                    <button class="btn-submit" onclick="saveEditList()">Save</button>
+                    <button class="btn-secondary" onclick="closeEditListModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+    <div class="modal" id="editCardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Card</h3>
+                <button class="modal-close" onclick="closeEditCardModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #5e6c84;">Title</label>
+                <input type="text" id="editCardTitle" class="modal-input" placeholder="Card title">
+                
+                <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #5e6c84;">Description</label>
+                <textarea id="editCardDescription" class="modal-textarea" placeholder="Card description"></textarea>
+                
+                <div class="modal-buttons">
+                    <button class="btn-submit" onclick="saveEditCard()">Save</button>
+                    <button class="btn-secondary" onclick="closeEditCardModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div class="modal" id="confirmDeleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" onclick="closeConfirmDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage" style="margin-bottom: 20px; color: #172b4d;"></p>
+                
+                <div class="modal-buttons">
+                    <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+                    <button class="btn-secondary" onclick="closeConfirmDeleteModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/boards.js"></script>
+    <script src="js/lists.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/edit-delete.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/due-dates.js"></script>
+</html>
+

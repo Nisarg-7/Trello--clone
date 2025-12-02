@@ -1,0 +1,95 @@
+/* Lists Container */
+.lists-container {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    min-height: calc(100vh - 120px);
+    align-items: flex-start;
+}
+
+/* List Styles */
+.list {
+    background: #ebecf0;
+    border-radius: 8px;
+    min-width: 272px;
+    max-width: 272px;
+    padding: 12px;
+    max-height: calc(100vh - 160px);
+    display: flex;
+    flex-direction: column;
+}
+
+.list-header {
+    padding: 8px;
+    font-weight: 600;
+    color: #172b4d;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.list-cards {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Add List Button */
+.add-list-btn {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    min-width: 272px;
+    padding: 12px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.add-list-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* List Actions (Edit/Delete) */
+.list-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-list-action {
+    background: transparent;
+    border: none;
+    color: #5e6c84;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-list-action:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #172b4d;
+}
+
+/* Card Input in List */
+.card-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.card-input:focus {
+    outline: 2px solid #0079bf;
+}
